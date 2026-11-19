@@ -1,0 +1,20 @@
+# 配布元（GoogleChrome/modern-web-guidance）の更新を毎日取り込む。
+# claude.aiのマーケットプレイスはこのフォークを自動同期しているので、取り込めばClaudeのプラグインも新しくなる。
+name: Sync upstream
+
+on:
+  schedule:
+    - cron: "17 21 * * *" # 毎日 6:17（日本時間）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge upstream main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh repo sync "$GITHUB_REPOSITORY" --source GoogleChrome/modern-web-guidance --branch main
